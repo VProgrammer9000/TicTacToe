@@ -50,7 +50,7 @@ public class GameMenu {
             int gameBoardSize = 3;
             boolean specialMode = false;
             char[] players={'X','O'};
-            new Game(gameBoardSize,specialMode,players);        }
+            new Game(gameBoardSize,specialMode,players, frame);        }
     };
 
     ActionListener customizedGameActionListener = new ActionListener() {
@@ -59,7 +59,7 @@ public class GameMenu {
         int gameBoardSize = 7; //3-7
             boolean specialMode = false;
         char[] players={'O','X'};
-        new Game(gameBoardSize,specialMode,players);
+        new Game(gameBoardSize,specialMode,players, frame);
         frame.dispose();
         }
     };

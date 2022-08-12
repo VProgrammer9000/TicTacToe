@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class Game {
     JFrame frame=new JFrame();
+    JFrame gameMenu;
 
     JPanel infoPanel=new JPanel();
     JLabel textField=new JLabel();
@@ -32,11 +33,13 @@ public class Game {
     public Game(
             int gameBoardSize,
             boolean specialMode,
-            char[] playerSymbol
+            char[] playerSymbol,
+            JFrame gameMenu
     ) {
-        this.size=gameBoardSize;
+        this.size = gameBoardSize;
         this.specialMode = specialMode;
-        this.players=playerSymbol;
+        this.players = playerSymbol;
+        this.gameMenu = gameMenu;
 
         frame.setSize(500,500);
 
@@ -113,10 +116,29 @@ public class Game {
 
         //init menu Panel
         menuPanel=new JPanel();
-        JButton reload=new JButton("⟳");
-        JButton menu=new JButton("☰");
-        menuPanel.add(reload);
-        menuPanel.add(menu);
+        JButton reloadButton=new JButton("⟳");
+        JButton menuButton=new JButton("☰");
+
+        menuPanel.add(reloadButton);
+        reloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (GameButton button:buttons) {
+                    button.setValue("");
+                    button.setPriority(-1);
+                    button.setEnabled(true);
+                }
+            }
+        });
+
+        menuPanel.add(menuButton);
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameMenu.setVisible(true);
+                frame.dispose();
+            }
+        });
 
         frame.add(menuPanel,BorderLayout.SOUTH);
 

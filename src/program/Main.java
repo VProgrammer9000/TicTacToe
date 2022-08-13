@@ -1,11 +1,13 @@
+package program;
+
 public class Main {
     public static void main(String[] args) {
-        new GameMenu();
+        new MainFrame();
     }
-    //TODO Customized Game Menu
+    //TODO Menu finished
+    //TODO Customized program.Game Menu
     //TODO Wining Screen
     //TODO Font Size
-    //TODO Menu finished
 
     //TODO Looks Change game
     //TODO Looks Selection

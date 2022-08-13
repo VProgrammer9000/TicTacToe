@@ -1,11 +1,12 @@
+package program;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class Game {
-    JFrame frame=new JFrame();
+public class Game extends JPanel{
     JFrame gameMenu;
 
     JPanel infoPanel=new JPanel();
@@ -28,8 +29,6 @@ public class Game {
     private String[][] data;
     private int currentPlayer=0;
 
-
-
     public Game(
             int gameBoardSize,
             boolean specialMode,
@@ -41,12 +40,11 @@ public class Game {
         this.players = playerSymbol;
         this.gameMenu = gameMenu;
 
-        frame.setSize(500,500);
 
         //init InfoPanel
         infoPanel.add(textField);
         textField.setText("Player "+ players[currentPlayer] + " turn");
-        frame.add(infoPanel,BorderLayout.NORTH);
+        this.add(infoPanel,BorderLayout.NORTH);
 
         //inits gamePanel
         buttons = new GameButton[size*size];
@@ -106,13 +104,13 @@ public class Game {
 
             //table end
 
-            frame.add(selectionPanel,BorderLayout.EAST);
+            this.add(selectionPanel,BorderLayout.EAST);
 
         }
 
 
 
-        frame.add(gameBoardPanel,BorderLayout.CENTER);
+        this.add(gameBoardPanel,BorderLayout.CENTER);
 
         //init menu Panel
         menuPanel=new JPanel();
@@ -127,6 +125,7 @@ public class Game {
                     button.setValue("");
                     button.setPriority(-1);
                     button.setEnabled(true);
+                    button.setBackground(null);
                 }
             }
         });
@@ -135,14 +134,11 @@ public class Game {
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameMenu.setVisible(true);
-                frame.dispose();
+                //TODO
             }
         });
 
-        frame.add(menuPanel,BorderLayout.SOUTH);
-
-        frame.setVisible(true);
+        this.add(menuPanel,BorderLayout.SOUTH);
     }
 
     ActionListener gameButtonActionListener =new ActionListener() {
@@ -338,6 +334,29 @@ public class Game {
             for (int j = 0; j < size-1; j++) {
                 data[j][i] = priorityAmount[i][j]+"";
             }
+        }
+    }
+
+    public class GameButton extends JButton {
+        String value;
+        int priority=-1;
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+            setText(value);
+        }
+
+        public int getPriority() {
+            return priority;
+        }
+
+        public void setPriority(int priority) {
+            this.priority = priority;
+            //TODO Set Size
         }
     }
 }

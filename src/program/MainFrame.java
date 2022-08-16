@@ -1,37 +1,37 @@
 package program;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.awt.CardLayout;
+import java.awt.*;
 
 public class MainFrame {
     JFrame frame=new JFrame();
+    JPanel mainPanel=new JPanel();
     CardLayout cardLayout = new CardLayout();
-    JPanel mainPanel=new JPanel(cardLayout);
-    JPanel startMenu;
-    JPanel gameMenu;
+
 
     public MainFrame() {
-
         initFrame();
 
-        startMenu=new StartMenu(this);
+        mainPanel.setLayout(cardLayout);
 
-        gameMenu=new GameMenu(this);
+        JPanel startMenu=new StartMenu(this);
+        JPanel gameMenu=new GameMenu(this);
+        JPanel settingsMenu=new SettingsMenu(this);
+
+        mainPanel.add(startMenu,"startMenu");
+        mainPanel.add(gameMenu,"gameMenu");
+        mainPanel.add(settingsMenu,"settingMenu");
+
 
         cardLayout.show(mainPanel,"startMenu");
-
 
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
     private void initFrame(){
         frame.setSize(500,500);
-        frame.setLayout(null);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBackground(Settings.getInstance().getBackground());
 
         //UIManager
         try {
@@ -42,49 +42,38 @@ public class MainFrame {
 
         // sets Title
         JLabel title=new JLabel("Tic Tac Toe");
-        title.setBounds(50, 0,100,20);
-        frame.add(title);
+        frame.add(title, BorderLayout.NORTH);
 
-        mainPanel.setBounds(20,30,460,440);
-        frame.add(mainPanel);
-
-        cardLayout.addLayoutComponent(startMenu,"startMenu");
-        cardLayout.addLayoutComponent(gameMenu,"gameMenu");
-
+        frame.add(mainPanel, BorderLayout.CENTER);
     }
 
 
-    ActionListener gameSelectionActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //TODO Remove
-            int gameBoardSize = 3;
-            boolean specialMode = false;
-            char[] players={'X','O'};
-            new Game(gameBoardSize,specialMode,players, frame);
-        }
-    };
 
-    public void startMenuGameButtonPressed(){
-        //TODO
-        cardLayout.show(mainPanel,"gameMenu");
-        frame.repaint();
-    }
-
-    public void startMenuLookButtonPressed(){
-        //TODO
-        cardLayout.show(mainPanel,"game");
-        frame.repaint();
-    }
-
-    public void gameMenuBackButtonPressed(){
-        //TODO
+    public void openStartMenu(){
         cardLayout.show(mainPanel,"startMenu");
-        frame.repaint();
+    }
+
+    public void openGameMenu(){
+        cardLayout.show(mainPanel,"gameMenu");
+    }
+
+    public void openSettingMenu(){
+        cardLayout.show(mainPanel,"settingMenu");
     }
 
     public void gameMenuGameButtonPressed(int gameSize, boolean specialMode){
-        //TODO
-
+        JPanel panel = new Game(gameSize,specialMode, this);
+        mainPanel.add(panel,"gameBoard");
+        cardLayout.show(mainPanel,"gameBoard");
     }
+
+    public static void main(String[] args) {
+        new MainFrame();
+    }
+    //TODO StartMenu finished
+    //TODO GameMenu finished
+    //TODO Font Size
+
+    //TODO Looks Change game
+    //TODO Looks Selection
 }

@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class GameMenu extends JPanel {
     MainFrame parentframe;
 
-    JButton back=new JButton();
+    JButton back=new JButton("\uD83D\uDD19");
     JButton game3x3=new JButton();
     JButton game5x5=new JButton();
     JButton game7x7=new JButton();
@@ -16,6 +16,7 @@ public class GameMenu extends JPanel {
 
     public GameMenu(MainFrame parentFrame){
         this.parentframe=parentFrame;
+        this.setBackground(Settings.getInstance().getBackground());
 
         this.add(back);
         this.add(game3x3);
@@ -28,15 +29,16 @@ public class GameMenu extends JPanel {
         game5x5.addActionListener(gameActionListener);
         game7x7.addActionListener(gameActionListener);
 
-        //TODO Remove
-        this.setBackground(Color.BLUE);
+
     }
+
     ActionListener backActionListener=new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            parentframe.openStartMenu();
         }
     };
+
     ActionListener gameActionListener=new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -49,6 +51,7 @@ public class GameMenu extends JPanel {
                 gameSize=7;
             }
             boolean specialMode=specialModeCheckBox.isSelected();
+
             parentframe.gameMenuGameButtonPressed(gameSize,specialMode);
         }
     };

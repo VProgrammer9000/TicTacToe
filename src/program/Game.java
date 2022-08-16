@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class Game extends JPanel{
-    JFrame gameMenu;
+    MainFrame mainFrame;
 
     JPanel infoPanel=new JPanel();
     JLabel textField=new JLabel();
@@ -23,27 +23,27 @@ public class Game extends JPanel{
 
     private final int size;
     private final boolean specialMode;
-    private final char[] players;
-    //priority = index
+    private final char[] playersSymbols = Settings.getInstance().getPlayersSymbol();
+    private final Color[] playersColors = Settings.getInstance().getPlayersColor();
+
     private int[][] priorityAmount;
     private String[][] data;
+
     private int currentPlayer=0;
 
     public Game(
             int gameBoardSize,
             boolean specialMode,
-            char[] playerSymbol,
-            JFrame gameMenu
+            MainFrame mainFrame
     ) {
         this.size = gameBoardSize;
         this.specialMode = specialMode;
-        this.players = playerSymbol;
-        this.gameMenu = gameMenu;
+        this.mainFrame = mainFrame;
 
 
         //init InfoPanel
         infoPanel.add(textField);
-        textField.setText("Player "+ players[currentPlayer] + " turn");
+        textField.setText("Player "+ playersSymbols[currentPlayer] + " turn");
         this.add(infoPanel,BorderLayout.NORTH);
 
         //inits gamePanel
@@ -134,7 +134,7 @@ public class Game extends JPanel{
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                mainFrame.openGameMenu();
             }
         });
 
@@ -175,20 +175,20 @@ public class Game extends JPanel{
 
 
             if (priority > button.getPriority()){
-                button.setValue("" + players[currentPlayer]);
+                button.setValue("" + playersSymbols[currentPlayer]);
                 button.setPriority(priority);
                 priorityAmount[currentPlayer+1][priority]--;
                 repaintTable();
             }else {
-                textField.setText("Too low priority \n Player "+ players[currentPlayer] + " turn");
+                textField.setText("Too low priority \n Player "+ playersSymbols[currentPlayer] + " turn");
                 return;
             }
         }else{
 
             if(button.getText().equals("")){
-                button.setValue(""+players[currentPlayer]);
+                button.setValue(""+ playersSymbols[currentPlayer]);
             }else {
-                textField.setText("Unavailable Button \n Player "+ players[currentPlayer] + " turn");
+                textField.setText("Unavailable Button \n Player "+ playersSymbols[currentPlayer] + " turn");
                 return;
             }
         }
@@ -201,7 +201,7 @@ public class Game extends JPanel{
             currentPlayer = 0;
 
         //Update Textfield Text
-        textField.setText("Player "+ players[currentPlayer] + " turn");
+        textField.setText("Player "+ playersSymbols[currentPlayer] + " turn");
     }
     private void checkGameOver(){
         if (size==3) {
@@ -323,10 +323,10 @@ public class Game extends JPanel{
         }
 
         for (int index:buttonsIndex) {
-            buttons[index].setBackground(Color.RED);
+            buttons[index].setBackground(Settings.getInstance().getWiningMarker());
         }
 
-        textField.setText("Player " + players[currentPlayer] + " wins");
+        textField.setText("Player " + playersSymbols[currentPlayer] + " wins");
 
     }
     private void repaintTable(){

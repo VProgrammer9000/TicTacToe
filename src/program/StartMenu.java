@@ -8,15 +8,18 @@ import java.awt.event.ActionListener;
 public class StartMenu extends JPanel{
     MainFrame parentFrame;
     public StartMenu(MainFrame parentFrame){
-
         this.parentFrame=parentFrame;
+        this.setBackground(Settings.getInstance().getBackground());
+        this.setLayout(new BorderLayout());
 
         //sets Picture
-        JLabel label = new JLabel(); //JLabel Creation
-        label.setIcon(new ImageIcon("Download.png")); //Sets the image to be displayed as an icon
-        Dimension size = label.getPreferredSize(); //Gets the size of the image
-        label.setBounds(50, 30, size.width, size.height); //Sets the location of the image
-        this.add(label);
+        JLabel picture = new JLabel(); //JLabel Creation
+        picture.setIcon(new ImageIcon("TicTacToe.png")); //Sets the image to be displayed as an icon
+        picture.setSize(
+                new Dimension((int)(picture.getPreferredSize().getHeight()*2),
+                        (int)(picture.getPreferredSize().getWidth()*2))
+        );
+        this.add(picture);
 
         //init selection Panel
         JPanel buttonSelectPanel = new JPanel();
@@ -28,29 +31,26 @@ public class StartMenu extends JPanel{
         playButton.addActionListener(gameActionListener);
         buttonSelectPanel.add(playButton);
 
-        //init looksButton
-        JButton looksButton=new JButton("Looks");
-        looksButton.addActionListener(looksActionListener);
-        buttonSelectPanel.add(looksButton);
+        //init settingButton
+        JButton settingButton=new JButton("Setting");
+        settingButton.addActionListener(settingActionListener);
+        buttonSelectPanel.add(settingButton);
 
-        this.add(buttonSelectPanel);
+        this.add(buttonSelectPanel,BorderLayout.SOUTH);
 
-        //TODO Remove
-        this.setBackground(Color.BLUE);
-        this.setPreferredSize(new Dimension(300,300));
     }
 
     ActionListener gameActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            parentFrame.startMenuGameButtonPressed();
+            parentFrame.openGameMenu();
         }
     };
 
-    ActionListener looksActionListener = new ActionListener() {
+    ActionListener settingActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            parentFrame.startMenuLookButtonPressed();
+            parentFrame.openSettingMenu();
         }
     };
 }
